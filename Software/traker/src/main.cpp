@@ -1,10 +1,21 @@
 #include <Arduino.h>
 #define TINY_GSM_MODEM_SIM800
-//#define SerialMon Serial
 #include <SoftwareSerial.h>
-SoftwareSerial SerialAT(5, 18);
 
-//#define TINY_GSM_DEBUG Serial
+
+#include <TinyGPS.h>//incluimos libreria TinyGPS
+int timeOffset = -3;  // Ajuste horario en horas (ejemplo: -3 para GMT-3 Arg)
+TinyGPS gps;//Declaramos el objeto gps
+int year;
+byte month, day, hour, minute, second, hundredths;
+unsigned long chars;
+unsigned short sentences, failed_checksum;
+
+
+
+SoftwareSerial SerialAT(5, 18);
+SoftwareSerial SerialGPS(6, 7);
+
 #define TINY_GSM_USE_GPRS true
 #include <TinyGsmClient.h>
 
@@ -75,21 +86,12 @@ void broker_gsm(){
     }
     delay(100);
     return;
-
-
 }
-
-
-
-
-
-
-
 
 void setup() {
     Serial.begin(9600);
-    delay(10);
     SerialAT.begin(9600);
+    SerialGPS.begin(9600);
     delay(6000);
     Serial.println("Iniciando modem...");
     modem.restart();
@@ -109,41 +111,19 @@ void setup() {
 void loop() {
   if (!modem.isNetworkConnected()) {
     red_gsm();
-/*    Serial.println("Network disconnected");
-    if (!modem.waitForNetwork(180000L, true)) {
-      Serial.println(" Error de conexion !!!!");
-      delay(10000);
-      return;
-    }
-    if (modem.isNetworkConnected()) {
-      Serial.println("Network re-connected");
-    }*/
-
     if (!modem.isGprsConnected()) {
       gprs();
-      /*Serial.println("GPRS disconnected!");
-      Serial.print(F("Connecting to "));
-      Serial.print(apn);
-      if (!modem.gprsConnect(apn, gprsUser, gprsPass)) {
-        Serial.println(" fail");
-        delay(10000);
-        return;
-      }
-      if (modem.isGprsConnected()) { Serial.println("GPRS reconnected"); }
-    }*/
-  }
-
-  if (!mqtt.connected()) {
-    broker_gsm();
-    /*uint32_t t = millis();
-    if (t - lastReconnectAttempt > 10000L) {
-      lastReconnectAttempt = t;
-      if (mqttConnect()) { lastReconnectAttempt = 0; }
     }
-    delay(100);
-    return;*/
+      if (!mqtt.connected()) {
+        broker_gsm();
+      }
+    mqtt.loop();
   }
 
-  mqtt.loop();
-}
+
+
+
+
+
+  
 }
