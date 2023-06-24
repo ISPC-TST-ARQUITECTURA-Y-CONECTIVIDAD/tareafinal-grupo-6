@@ -8,5 +8,5 @@ Se utiliza el código de prueba física de periféricos.
 Los datos de GPS son fijos para mostrar la estructura de cómo se vería en tiempo real y se envían por puerto serial a la computadora.
 Se comenta el código donde se solicita la conexión del GPS.
 
-![Alt text](gifWowki.gif)
+![Alt text]
 
