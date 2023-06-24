@@ -80,7 +80,6 @@ void broker_gsm(){
     return;
 }
 
-
 void setup() {
     Serial.begin(9600);
     SerialAT.begin(9600);
@@ -99,16 +98,7 @@ void setup() {
     if (modem.isGprsConnected()) { Serial.println("GPRS conectado"); }
     mqtt.setServer(broker, 1883);
     mqtt.setCallback(mqttCallback);
-
 }
-
-
-
-
-
-
-
-
 void loop() {
   if (!modem.isNetworkConnected()) {
       red_gsm();
@@ -120,7 +110,7 @@ void loop() {
       broker_gsm();
   }
     mqtt.loop();
-    
+
 while(serialgps.available()){
 {
 int c = serialgps.read(); 
@@ -151,8 +141,6 @@ String dato=String(year)+String("-")+String(month)+String("-")+String(dia)+","+\
 mqtt.publish(topic, dato.c_str());
 delay(4000);
 }
-
-
 
 
 
