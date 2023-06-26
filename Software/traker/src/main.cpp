@@ -1,6 +1,8 @@
 #include <Arduino.h>
 #define TINY_GSM_MODEM_SIM800
 #include <SoftwareSerial.h>
+#include <Adafruit_SSD1306.h>//libreria necesaria para dsiplay
+Adafruit_SSD1306 display = Adafruit_SSD1306(128, 64);//Especifico display
 #include <TinyGPS.h> //incluimos libreria TinyGPS
 int timeOffset = -3; // Ajuste horario en horas (ejemplo: -3 para GMT-3 Arg)
 TinyGPS gps;         // Declaramos el objeto gps
@@ -100,11 +102,24 @@ void setup()
   Serial.begin(9600);
   SerialAT.begin(9600);
   serialgps.begin(9600);
+  display.begin(SSD1306_SWITCHCAPVCC, 0x3c);
+  display.clearDisplay();
+  display.setTextColor(WHITE, BLACK);
   Serial.println("Iniciando modem...");
   modem.restart();
   delay(6000);
-  Serial.print(F("Conectando con "));
-  Serial.println(apn);
+  display.setCursor(0, 0);
+  display.println(F("Conectando con "));
+  display.display();
+  delay(1000);
+  display.setCursor(0, 10);
+  display.println(apn);
+  display.display();
+  delay(1000);
+
+
+  //Serial.print(F("Conectando con "));
+  //Serial.println(apn);
   if (!modem.gprsConnect(apn, gprsUser, gprsPass))
   {
     Serial.println("Error en la conexion !!!!!!!");
