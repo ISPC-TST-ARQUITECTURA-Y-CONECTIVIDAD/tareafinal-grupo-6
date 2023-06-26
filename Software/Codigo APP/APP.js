@@ -1,3 +1,83 @@
+
+
+// Verificar si el navegador del usuario soporta la API de geolocalización
+if (navigator.geolocation) {
+  // Obtener la ubicación actual del usuario
+  navigator.geolocation.getCurrentPosition(showPosition);
+} else {
+  alert('El navegador no soporta la geolocalización.');
+}
+
+// Función para mostrar la posición en el elemento Nodo
+function showPosition(position) {
+  var latitude = position.coords.latitude;
+  var longitude = position.coords.longitude;
+
+  // Mostrar la posición en el elemento Nodo
+  var locationInfo = document.getElementById('locationInfo');
+  locationInfo.innerHTML = 'Latitud: ' + latitude + '<br>Longitud: ' + longitude;
+}
+
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+
+const app = express();
+const port = 3306; // Elige el puerto que desees utilizar
+
+// Configuración de la conexión a la base de datos MariaDB
+const connection = mysql.createConnection({
+  host: 'brokergrupo6.ddns.net', // Cambia esto si tu base de datos está en otro host
+  user: 'grafana',
+  password: 'grafana',
+  database: 'grafana'
+});
+
+// Conexión a la base de datos
+connection.connect(error => {
+  if (error) {
+    console.error('Error al conectar a la base de datos:', error);
+  } else {
+    console.log('Conexión exitosa a la base de datos');
+  }
+});
+
+// Middleware para analizar el cuerpo de las solicitudes como JSON
+app.use(bodyParser.json());
+
+// Ruta para guardar la ubicación en la base de datos
+app.post('/save-location', (req, res) => {
+  const { latitude, longitude } = req.body;
+
+  // Consulta SQL para insertar la ubicación en la tabla de la base de datos
+  var temporal = msg.payload.split(",");
+  var fecha = temporal[0];
+  var hora = temporal[1];
+  var name = temporal[2];
+  var lat = temporal[3];
+  var lon = temporal[4];
+  var velocidad = temporal[5];
+  msg.topic = "INSERT INTO datos_traker(fecha,hora,name,lat,lon,velocidad) VALUES ('" + fecha + "','" + hora + "','" + name + "','" + lat + "','" + lon + "','" + velocidad + "')";
+
+
+  // Ejecutar la consulta SQL con los valores proporcionados
+  connection.query(sql, [latitude, longitude], (error, results) => {
+    if (error) {
+      console.error('Error al guardar la ubicación en la base de datos:', error);
+      res.sendStatus(500); // Error interno del servidor
+    } else {
+      console.log('Payload guardado en la base de datos');
+      res.sendStatus(200); // OK
+    }
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Servidor en ejecución en http://brokergrupo6:${port}`);
+});
+
+
 /*desarmo arreglo para el envio de pines a mapa capa FOO 
   asignando distintos nombresID para usar varias capas del mapa 
   y hacerlo multiusuario*/
