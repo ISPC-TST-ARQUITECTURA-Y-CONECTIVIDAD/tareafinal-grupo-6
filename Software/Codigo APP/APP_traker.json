@@ -1,0 +1,642 @@
+[
+    {
+        "id": "1cadb9f30afbd182",
+        "type": "tab",
+        "label": "Flow 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "66a99f7e5e92ae01",
+        "type": "mqtt in",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "topic": "/datos/traker/",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "b937d3891a03a673",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 840,
+        "wires": [
+            [
+                "67cd7212dcf2ade2",
+                "7477b81c1b5ad20b"
+            ]
+        ]
+    },
+    {
+        "id": "f949406eb5865423",
+        "type": "inject",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "props": [
+            {
+                "p": "payload",
+                "v": "",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "v": "",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 190,
+        "y": 320,
+        "wires": [
+            [
+                "8587d4eafc7af901"
+            ]
+        ]
+    },
+    {
+        "id": "8587d4eafc7af901",
+        "type": "function",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "func": "var msg1 = {};\nvar msg2 = {};\nvar msg3 = {};\n\nvar temporal = msg.payload.split(\",\");\nvar name = temporal[2];\nvar lat = temporal[3];\nvar lon = temporal[4];\nvar color;\n\n\n\nif(name==\"1\"){\n    color=\"green\";\n        msg1.payload = {\n        layer: \"foo\",\n        lat: lat,\n        lon: lon,\n        name: \"Mario\",\n        icon: \"car\",\n        iconColor: color,\n        color: color\n    };\n    msg1.topic = 'Mario';\n    return msg1;\n}\n\nif (name == \"2\") {\n    color = \"blue\";\n    msg2.payload={\n    layer: \"foo\",\n    lat:lat, \n    lon:lon, \n    name:\"Leo\", \n    icon:\"car\",\n    iconColor: color,\n    color: color};\n    msg2.topic = 'Leo'\n    return msg2;\n}\n\nif (name == \"3\") {\n    color = \"red\";\n    msg2.payload = {\n        layer: \"foo\",\n        lat: lat,\n        lon: lon,\n        name: \"Andres\",\n        icon: \"car\",\n        iconColor: color,\n        color: color\n    };\n    msg3.topic = 'Andres'\n    return msg3;\n}\n",
+        "outputs": 3,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 320,
+        "wires": [
+            [
+                "cc1142a790e93b17",
+                "43c57e138a753f01",
+                "f57521b7e0212f20"
+            ],
+            [
+                "f57521b7e0212f20"
+            ],
+            [
+                "f57521b7e0212f20"
+            ]
+        ]
+    },
+    {
+        "id": "557dac438184b6e6",
+        "type": "ui_button",
+        "z": "1cadb9f30afbd182",
+        "d": true,
+        "name": "",
+        "group": "8b37c715cbd3f4f8",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Insertar random",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "fa-male",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 160,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4c9d4a4f59ca7715",
+        "type": "comment",
+        "z": "1cadb9f30afbd182",
+        "name": "How to embed Map in Dashboard",
+        "info": "This example shows how to embed the Worldmap \nwithin the `node-red-dashboard`\n\nThe  flow creates a dashboard button that \ngenerates a randon position, with the required \nicon, and passes that to the worldmap. The\nmap is configured to automatically pan to the\nposition of any point that arrives.\n",
+        "x": 550,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "f57521b7e0212f20",
+        "type": "ui_worldmap",
+        "z": "1cadb9f30afbd182",
+        "group": "8b37c715cbd3f4f8",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "lat": "-31.4110950047849",
+        "lon": "-64.224404801441",
+        "zoom": "14",
+        "layer": "OSMC",
+        "cluster": "",
+        "maxage": "999",
+        "usermenu": "hide",
+        "layers": "show",
+        "panit": "true",
+        "panlock": "false",
+        "zoomlock": "false",
+        "hiderightclick": "true",
+        "coords": "none",
+        "showgrid": "true",
+        "showruler": "true",
+        "allowFileDrop": "true",
+        "path": "/worldmap",
+        "overlist": "DR,CO,RA,DN,HM",
+        "maplist": "OSMG,OSMC,EsriC,EsriS,NatGeo,UKOS,OpTop",
+        "mapname": "",
+        "mapurl": "",
+        "mapopt": "",
+        "mapwms": false,
+        "x": 1000,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "81729268cca2d67f",
+        "type": "mysql",
+        "z": "1cadb9f30afbd182",
+        "mydb": "0be2244ae5deaa7d",
+        "name": "",
+        "x": 520,
+        "y": 840,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "62ae3b3c.8de704",
+        "type": "worldmap in",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "path": "/worldmap",
+        "events": "connect",
+        "x": 180,
+        "y": 120,
+        "wires": [
+            [
+                "2eadb3d5.d063ec",
+                "259809c4.43edf6"
+            ]
+        ]
+    },
+    {
+        "id": "2eadb3d5.d063ec",
+        "type": "debug",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 330,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "259809c4.43edf6",
+        "type": "switch",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "property": "payload.action",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "connected",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 330,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "13a00ba8.dcc8e4",
+        "type": "comment",
+        "z": "1cadb9f30afbd182",
+        "name": "Reload trigger",
+        "info": "The output from the switch will fire whenever a browser connects (or reconnects).\n\nThis can be used to retrieve stored datapoints and resend them to the map, as by default the main does not retain any sata between refreshes.\n\nThe debug node will show other properties that may be useful to trigger other actions.\n",
+        "x": 170,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "67cd7212dcf2ade2",
+        "type": "function",
+        "z": "1cadb9f30afbd182",
+        "name": "Ajuste BD",
+        "func": "var temporal = msg.payload.split(\",\");\nvar fecha = temporal[0];\nvar hora = temporal[1];\nvar name = temporal[2];\nvar lat = temporal[3];\nvar lon = temporal[4];\nvar velocidad = temporal[5];\nmsg.topic = \"INSERT INTO datos_traker(fecha,hora,name,lat,lon,velocidad) VALUES ('\" + fecha + \"','\" + hora + \"','\" + name + \"','\" + lat + \"','\" + lon + \"','\" + velocidad + \"')\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 840,
+        "wires": [
+            [
+                "81729268cca2d67f",
+                "59a5ef1d0cdded8f"
+            ]
+        ]
+    },
+    {
+        "id": "0176cc735431128c",
+        "type": "inject",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "2023-06-20,11:30:20,1,-31.4110950047849,-64.224404801441,28.8",
+        "payloadType": "str",
+        "x": 170,
+        "y": 900,
+        "wires": [
+            [
+                "67cd7212dcf2ade2"
+            ]
+        ]
+    },
+    {
+        "id": "fb924af6a9e21e27",
+        "type": "function",
+        "z": "1cadb9f30afbd182",
+        "name": "Borra Mapa",
+        "func": "msg.payload = { \"command\": { \"clear\": \"foo\" } };\n/*msg.payload = {\n    type: 'Feature',\n    features: []\n};*/\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 460,
+        "wires": [
+            [
+                "f57521b7e0212f20",
+                "4f1d20025a15dd26"
+            ]
+        ]
+    },
+    {
+        "id": "ed88d428a143692b",
+        "type": "ui_button",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "group": "8b37c715cbd3f4f8",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Borrar",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "command\": { \"clear\": \"foo\" }}",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 210,
+        "y": 460,
+        "wires": [
+            [
+                "fb924af6a9e21e27"
+            ]
+        ]
+    },
+    {
+        "id": "3b02ca4c243e8290",
+        "type": "mqtt in",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "topic": "/datos/traker/",
+        "qos": "0",
+        "datatype": "utf8",
+        "broker": "b937d3891a03a673",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 380,
+        "wires": [
+            [
+                "8587d4eafc7af901"
+            ]
+        ]
+    },
+    {
+        "id": "59a5ef1d0cdded8f",
+        "type": "debug",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 530,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "cc1142a790e93b17",
+        "type": "worldmap-tracks",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "depth": "10000",
+        "layer": "combined",
+        "smooth": false,
+        "x": 570,
+        "y": 280,
+        "wires": [
+            [
+                "f57521b7e0212f20"
+            ]
+        ],
+        "info": "        color: 'red',\r\n        weight: 5"
+    },
+    {
+        "id": "43c57e138a753f01",
+        "type": "debug",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 610,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "7113d5ead4c53334",
+        "type": "function",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "func": "msg.topic = \"SELECT * FROM `datos_traker` WHERE `name`= 2\";\n//msg.topic = \"SELECT fecha, name, lat, lon  FROM `datos_traker` WHERE 'name'= '1'\";\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 320,
+        "y": 580,
+        "wires": [
+            [
+                "84c3871969ab95c0"
+            ]
+        ]
+    },
+    {
+        "id": "bb1f142263575e28",
+        "type": "ui_table",
+        "z": "1cadb9f30afbd182",
+        "group": "8b37c715cbd3f4f8",
+        "name": "",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "columns": [],
+        "outputs": 0,
+        "cts": false,
+        "x": 330,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "84c3871969ab95c0",
+        "type": "mysql",
+        "z": "1cadb9f30afbd182",
+        "mydb": "0be2244ae5deaa7d",
+        "name": "",
+        "x": 480,
+        "y": 580,
+        "wires": [
+            [
+                "3ab9ce1da794bd08",
+                "8e85cd62a7c287a4"
+            ]
+        ]
+    },
+    {
+        "id": "70411e09ce4081c6",
+        "type": "inject",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 180,
+        "y": 580,
+        "wires": [
+            [
+                "7113d5ead4c53334"
+            ]
+        ]
+    },
+    {
+        "id": "3ab9ce1da794bd08",
+        "type": "function",
+        "z": "1cadb9f30afbd182",
+        "name": "Construir el Json del mapa",
+        "func": "/*var route = {\n    type: 'Feature',\n    geometry: {\n        type: 'LineString',\n        coordinates: []\n    },\n    properties: {\n        name: '1'\n    }\n};\n\nmsg.payload.forEach(function (record) {\n    route.geometry.coordinates.push([record.lon, record.lat]);\n});\n\nmsg.payload = {\n    type: 'FeatureCollection',\n    features: [route]\n};\n\nreturn msg;*/\n\n\nvar route = {\n    type: 'Feature',\n    geometry: {\n        type: 'LineString',\n        coordinates: []\n    },\n    properties: {\n        name: 'Leo',\n        color: 'blue',\n        weight: 15\n    }\n};\n\nmsg.payload.forEach(function (record) {\n    route.geometry.coordinates.push([record.lon, record.lat]);\n});\n\nmsg.payload = {\n    type: 'FeatureCollection',\n    features: [route],\n    name: \"Mike\",\n    icon: \"car\",\n    color: \"blue\"\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 580,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8e85cd62a7c287a4",
+        "type": "function",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "func": "var route = {\n    type: 'Feature',\n    geometry: {\n        type: 'LineString',\n        coordinates: []\n    },\n    properties: {\n        name: 'Mario',\n        icon: 'car',\n        line: 'blue'\n    },\n    }\n\n\nmsg.payload.forEach(function (record) {\n    route.geometry.coordinates.push([record.lon, record.lat]);\n});\n\nmsg.payload = {\n    type: 'FeatureCollection',\n    features: [route]\n};\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 660,
+        "wires": [
+            [
+                "f57521b7e0212f20",
+                "49024b7114654b51"
+            ]
+        ]
+    },
+    {
+        "id": "49024b7114654b51",
+        "type": "debug",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "4f1d20025a15dd26",
+        "type": "debug",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "27342649be648e8a",
+        "type": "json",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 450,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7477b81c1b5ad20b",
+        "type": "debug",
+        "z": "1cadb9f30afbd182",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 490,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "b937d3891a03a673",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "brokergrupo6.ddns.net",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "8b37c715cbd3f4f8",
+        "type": "ui_group",
+        "name": "Mapa",
+        "tab": "7b9ce111a194937b",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "0be2244ae5deaa7d",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "brokergrupo6.ddns.net",
+        "port": "3306",
+        "db": "grafana",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "7b9ce111a194937b",
+        "type": "ui_tab",
+        "name": "TST Grupo6 Traker",
+        "icon": "dashboard",
+        "order": 2,
+        "disabled": false,
+        "hidden": false
+    }
+]
