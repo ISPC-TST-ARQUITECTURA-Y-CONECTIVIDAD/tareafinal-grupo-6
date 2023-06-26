@@ -26,30 +26,7 @@ int year;
 byte month, day, hour, minute, second, hundredths;
 unsigned long chars;
 unsigned short sentences, failed_checksum;
-//Configuramos la conexion al server mqtt
-void reconect(){
-  while (!client.connected()) {
-    Serial.println("Intentando conectar a server mqtt");
-    //creamoz un client ID
-    String clientId = "Esp32";
-    clientId += String(random(0xffff), HEX);
-    //intentamos conectar
-    if (client.connect(clientId.c_str())){
-        Serial.println("Conectado");
-        //nos suscribimos al topico
-        if (client.subscribe(TOPIC)){
-            Serial.println("Suscripcion OK");
-        }else{
-          Serial.println("Fallo la Suscripcion");
-        }
-      }else{
-      Serial.print("Fallo la conexion :( con error --> ");
-      Serial.println(client.state());
-      Serial.println("Intentaremos reconectar en 10 segundos");
-      delay(10000);
-    }
-  } 
-}
+
 void conectarWifi(){
   Serial.print("Conectando a WiFi...");
   WiFi.begin(WIFI_SSID, WIFI_PASS);
@@ -66,6 +43,8 @@ void conectarWifi(){
  
   //client.setCallback(onMessage);
 }
+
+//Configuramos la conexion al server mqtt
 void reconnectMQTT() {
   // Loop hasta que estemos conectados al servidor MQTT
   while (!client.connected()) {
