@@ -118,10 +118,16 @@ void setup()
   }
   mqtt.setServer(broker, 1883);
   mqtt.setCallback(mqttCallback);
+  delay(600);
+  gprs_gsm();
+  delay(600);
+  broker_gsm();
+  delay(600);
 }
 
 void loop()
 {
+  
   if (!modem.isNetworkConnected())
   {
     red_gsm();
@@ -150,7 +156,6 @@ void loop()
         { // si hora <0 significa que en Arg todavia no paso medianoche, entonces ajustamos el dia local
           dia = day - 1;
         }
-        // realizamos el ajuste de la hora Arg mediante + o -
         if (hora < 0)
         {
           hora += 24;
